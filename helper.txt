@@ -1,0 +1,19 @@
+--------- migrations ---------
+
+php artisan migrate:rollback
+php artisan make:migration add_paid_to_users_table --table=users
+php artisan migrate:refresh
+
+--------- mail verify---------
+
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+class User extends Authenticatable implements MustVerifyEmail
+
+php artisan config:cache
+php artisan vendor:publish --tag=laravel-mail
+https://myaccount.google.com/apppasswords?pli=1&rapt=AEjHL4MlYAPw0my-AwJIGPhHF-QaNCOMj344q_1Cl2jjDWI6BWJYa3jW0JfDgCvQEkPuk0GdACPSR2eH5u9vlPwxxx4vSgQZig
+ftnk pass:cdyncupgkxyprozm
+
+---------------------------------
+
+php artisan make:controller BookController --resource --model=Book
