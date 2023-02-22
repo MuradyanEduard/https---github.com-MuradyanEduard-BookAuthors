@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\AuthorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,4 +23,5 @@ Auth::routes(['verify' => false]);
 
 Route::middleware(['auth', 'verified'])->group(function(){
     Route::resource('book', BookController::class);
+    Route::resource('author', AuthorController::class);
 });

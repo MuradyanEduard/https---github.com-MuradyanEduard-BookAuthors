@@ -8,7 +8,7 @@
             <nav-bar-component></nav-bar-component>
             <section class="content">
                 <div class="container-fluid" style="padding:50px">
-                    <form action="{{ route('book.update',$book->id) }}" method="POST">
+                    <form action="{{ route('author.update',$author->id) }}" method="POST">
                         @csrf
                         @method('PUT')
 
@@ -26,27 +26,27 @@
                         <div class="col-md-12">
                             <div class="row">                                
                                 <div class="col-md-6">
-                                    <input type="text"  name="title" class="form-control" placeholder="Book title" value='{{$book->title}}'>
+                                    <input type="text" name="name" class="form-control" placeholder="Author name" value='{{$author->name}}'>
                                 </div>
                             </div>
                             <div class="row">                                
                                 <div class="col-md-6" style="margin:20px 0">
-                                    <img src={{asset('images/book.jpg')}} style="width:100%;" alt="">
+                                    <img src={{asset('images/author.jpeg')}} style="width:100%;" alt="">
                                 </div>
                             </div>
                             <div class="row" style="margin:0 0 20px 0">
-                                <select class="js-example-basic-multiple" name="authors[]" multiple="multiple">
-                                    @foreach ($book->authors as $author)
-                                        <option value="{{$author->id}}" selected >{{$author->name}}</option>
+                                <select class="js-example-basic-multiple" name="books[]" multiple="multiple">
+                                    @foreach ($author->books as $book)
+                                        <option value="{{$book->id}}" selected >{{$book->title}}</option>
                                     @endforeach
-                                    @foreach ($authors as $author)
-                                        <option value="{{$author->id}}" >{{$author->name}}</option>
+                                    @foreach ($books as $book)
+                                        <option value="{{$book->id}}" >{{$book->title}}</option>
                                     @endforeach
                                 </select>      
                             </div>
                             <div class="row">                                
                                 <div class="col-md-6">
-                                    <input type="submit" value="Change Book" style="background: #4bb1b1; color: white; height: 40px; font-weight: 500; width: 100%; border-radius: 8px; outline: none!important; border: none; cursor:pointer;">
+                                    <input type="submit" value="Change Author" style="background: #4bb1b1; color: white; height: 40px; font-weight: 500; width: 100%; border-radius: 8px; outline: none!important; border: none; cursor:pointer;">
                                 </div>
                             </div>
                         </div>
@@ -61,9 +61,9 @@
 @endsection
 
 <script>
-addEventListener("load", (event) => {
-    $(".js-example-basic-multiple option").each(function() {
-    $(this).siblings('[value="'+ this.value +'"]').remove();
+    addEventListener("load", (event) => {
+        $(".js-example-basic-multiple option").each(function() {
+        $(this).siblings('[value="'+ this.value +'"]').remove();
+        });
     });
-});
 </script>

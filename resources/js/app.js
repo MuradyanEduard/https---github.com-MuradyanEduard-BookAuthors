@@ -3,12 +3,12 @@ import { createApp } from 'vue';
 
 const app = createApp({});
 
-import BookNavBarComponent from './components/BookNavBarComponent.vue';
-import BookComponent from './components/BookComponent.vue';
-import BookMainComponent from './components/BookMainComponent.vue';
+import NavBarComponent from './components/NavBarComponent.vue';
+import MainComponent from './components/MainComponent.vue';
+import BookAuthorComponent from './components/BookAuthorComponent.vue';
 
-app.component('book-nav-bar-component', BookNavBarComponent);
-app.component('book-component', BookComponent);
-app.component('book-main-component', BookMainComponent);
+app.component('nav-bar-component', NavBarComponent);
+app.component('book-author-component', BookAuthorComponent);
+app.component('main-component', MainComponent);
 
 app.mount('#app');

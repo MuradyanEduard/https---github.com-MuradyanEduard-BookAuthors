@@ -23,37 +23,37 @@
     <div class="col-12 col-md-10 col-lg-9 col-xl-8" style="margin:auto">
         <div class="row" style="box-shadow: 2px 2px 4px 4px #888; min-height: 60vh;">
             <nav-bar-component></nav-bar-component>
-            @foreach ($books as $book)
+            @foreach ($authors as $author)
             <div class="books-content col-3 align-self-start" >
                 <div  style="max-height: 100%;">
                     <div class="row" >
                         <div class="col-12">
-                            <p >{{$book->title}}</p>
-                            <img src={{asset('images/book.jpg')}} style="width:100%;" alt="">
+                            <p >{{$author->name}}</p>
+                            <img src={{asset('images/author.jpeg')}} style="width:100%;" alt="">
                         </div>
                     </div>
-                    <div class="row" style="margin-top:20px">
-                        <select class="js-example-basic-multiple" name="authors[]" multiple="multiple" disabled>
-                            @foreach ($book->authors as $author)
-                                <option value="{{$author->id}}" selected>{{$author->name}}</option>
+                    <div class="row" style="margin-top:10px">
+                        <select class="js-example-basic-multiple" name="books[]" multiple="multiple" disabled >
+                            @foreach ($author->books as $book)
+                                <option value="{{$book->id}}" selected>{{$book->title}}</option>
                             @endforeach
                         </select>     
                     </div>
                     <div class="row">
                         <div class="div-input">
-                            <form action="{{route('book.show',$book)}}" method="GET">
+                            <form action="{{route('author.show',$author)}}" method="GET">
                                 @csrf
                                 <input type="submit" class="btn-action btn-search" value=" ">
                             </form>
                         </div>
                             <div class="div-input">
-                            <form action="{{route('book.edit',$book)}}" method="GET">
+                            <form action="{{route('author.edit',$author)}}" method="GET">
                                 @csrf
                                 <input type="submit" class="btn-action btn-edit" value=" ">
                             </form>
                         </div>
                         <div class="div-input">
-                            <form action="{{route('book.destroy',$book)}}" method="POST" onsubmit="return confirm('Are you sure?')">
+                            <form action="{{route('author.destroy',$author)}}" method="POST" onsubmit="return confirm('Are you sure?')">
                                 @csrf
                                 @method('DELETE')
                                 <input type="submit" class="btn-action btn-remove" value=" ">

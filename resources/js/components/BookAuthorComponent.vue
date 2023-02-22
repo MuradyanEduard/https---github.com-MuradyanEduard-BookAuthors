@@ -1,23 +1,28 @@
 <template>
+    <div  style="max-height: 100%;">
+        <div class="row" >
+            <div class="col-12">
+                <p v-if="element.title">{{element.title}}</p>
+                <p v-else="element.name">{{element.name}}</p>
 
-    <div>
-        <p>{{book.title}}</p>
-        <img src="/images/book.jpg" style="width:100%;" alt="">
+                <img :src="`${imgurl}`" style="width:100%;" alt="">
+            </div>
+        </div>
         <div class = "row">
-            <div class="col-2">
-                <form :action="`/book/${book.id}`" method="GET">
+            <div class="div-input" v-if="buttons.search">
+                <form :action="`/${comptype}/${element.id}`" method="GET">
                     <input type="hidden" name="_token" :value="csrf">
                     <input type="submit" class="btn-action btn-search" value=" ">
                 </form>
             </div>
-            <div class="col-2">
-                <form :action="`/book/${book.id}/edit`" method="GET">
+            <div class="div-input" v-if="buttons.edit">
+                <form :action="`/${comptype}/${element.id}/edit`" method="GET">
                     <input type="hidden" name="_token" :value="csrf">
                     <input type="submit" class="btn-action btn-edit" value=" ">
                 </form>
             </div>
-            <div class="col-2">
-                <form :action="`/book/${book.id}`" method="POST" onsubmit="return confirm('Are you sure?')">
+            <div class="div-input" v-if="buttons.remove">
+                <form :action="`/${comptype}/${element.id}`" method="POST" onsubmit="return confirm('Are you sure?')">
                     <input type="hidden" name="_method" value="DELETE">
                     <input type="hidden" name="_token" :value="csrf">
                     <input type="submit" class="btn-action btn-remove" value=" ">
@@ -34,10 +39,27 @@
             console.log('Component mounted.')
         },
         props:{
-            book: {
-               type: String,
-               default: () => ({}),
+            element: {
+               type: Object,
+               default: {},
            },
+           buttons:{
+            type: Object,
+               default: {
+                search:true,
+                edit:true,
+                remove:true,
+               }
+           },
+           comptype:{
+               type: String,
+               default: "",
+           },
+           imgurl:{
+                type: String,
+                default: "/images/book.jpg",
+           }
+
         },
         data() {
             return {
@@ -53,6 +75,9 @@ p{
     text-align: center;
 }
 
+.div-input{
+    max-width: 35px;
+}
 
 .btn-search{
     background: url(/images/search.png);

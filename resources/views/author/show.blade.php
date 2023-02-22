@@ -16,24 +16,24 @@
                         <div class="col-md-6">
                             <div class="row">                                
                                 <div class="col-md-12">
-                                    <p >{{$book->title}}</p>
+                                    <p >{{$author->name}}</p>
                                 </div>
                             </div>
                             <div class="row">                                
                                 <div class="col-md-12" style="margin:20px 0">
-                                    <img src={{asset('images/book.jpg')}} style="width:100%;" alt="">
+                                    <img src={{asset('images/author.jpeg')}} style="width:100%;" alt="">
                                 </div>
                             </div>
                             <div class="row" style="margin:0 0 20px 0">
                                 <select class="js-example-basic-multiple" name="authors[]" multiple="multiple" disabled="disabled">
-                                    @foreach ($book->authors as $author)
-                                        <option value="{{$author->id}}" selected >{{$author->name}}</option>
+                                    @foreach ($author->books as $book)
+                                        <option value="{{$book->id}}" selected >{{$book->title}}</option>
                                     @endforeach
                                 </select>      
                             </div>
                             <div class="row">                                
                                 <div class="col-md-12">
-                                    <a href="{{route('book.index')}}"  class="btn btn-xs btn-info pull-right" style="width: 100%;color:white;font-weight: bold;">Book List</a>
+                                    <a href="{{route('author.index')}}"  class="btn btn-xs btn-info pull-right" style="width: 100%;color:white;font-weight: bold;">Book List</a>
                                 </div>
                             </div>
                         </div>

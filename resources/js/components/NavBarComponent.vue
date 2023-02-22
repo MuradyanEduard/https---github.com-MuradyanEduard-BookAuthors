@@ -1,6 +1,6 @@
 <template>
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="max-height:100px!important">
   <!-- Container wrapper -->
   <div class="container-fluid">
     <!-- Collapsible wrapper -->
@@ -14,7 +14,10 @@
             <a class="nav-link" href="/book/create">Create Book</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">Authors </a>
+            <a class="nav-link" href="/author">Authors </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/author/create">Create Authors </a>
         </li>
       </ul>
       <!-- Left links -->

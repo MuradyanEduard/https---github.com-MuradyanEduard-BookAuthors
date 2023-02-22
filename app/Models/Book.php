@@ -9,4 +9,11 @@ class Book extends Model
 {
     use HasFactory;
     protected $fillable = ['title'];
+
+    public function authors()
+    {
+        return $this->belongsToMany(Author::class, 'books_authors');
+    }
+
+    
 }

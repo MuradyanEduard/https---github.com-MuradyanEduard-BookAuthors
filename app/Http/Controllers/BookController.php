@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\Author;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -16,7 +17,7 @@ class BookController extends Controller
      */
     public function index(): View
     {
-        return view('book.index', ['books' => Book::all()]);
+        return view('book.index', ['books' => Book::with('authors')->get()]);
     }
 
     /**
@@ -24,15 +25,16 @@ class BookController extends Controller
      */
     public function create(): View
     {
-        return view('book.create');
+        return view('book.create',['authors'=> Author::all()]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(BookRequest $request): RedirectResponse
-    {
+    public function store(Request $request): RedirectResponse
+    {        
         $book = Book::create($request->all());
+        $book->authors()->sync($request->authors);
 
         return redirect()->route('book.create')->with('message', 'Book successfully created!');
     }
@@ -42,23 +44,25 @@ class BookController extends Controller
      */
     public function show(Book $book): View
     {
-        return view('book.show',['book' => $book]);
+        return view('book.show',['book' => $book->load('authors')]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(Book $book): View
-    {
-        return view('book.edit',['book' => Book::where('id' , '=' , $book->id )->first()]);
+    {        
+        return view('book.edit',['book' => Book::where('id' , '=' , $book->id )->with('authors')->first(),'authors'=> Author::all()]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(BookRequest $request, Book $book): RedirectResponse
+    public function update(Request $request, Book $book): RedirectResponse
     {
+        
         $book->update($request->all());
+        $book->authors()->sync($request->authors);
         return redirect()->route('book.edit',['book' => $book])->with('message', 'Book successfully updated!');
     }
 

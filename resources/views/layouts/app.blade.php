@@ -14,6 +14,14 @@
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
     <!-- Scripts -->
+    <!-- Select2 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"/>
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}"/>
+
+    <!-- JQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+ 
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 <body>
@@ -77,5 +85,15 @@
             @yield('content')
         </main>
     </div>
+
+    <!-- JQuery -->
+   <script>
+    $(document).ready(function() {
+        $('.js-example-basic-multiple').select2({
+            width: '100%'
+        });
+    });
+    </script>
+
 </body>
 </html>
