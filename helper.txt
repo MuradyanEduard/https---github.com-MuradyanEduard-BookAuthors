@@ -17,3 +17,9 @@ ftnk pass:cdyncupgkxyprozm
 ---------------------------------
 
 php artisan make:controller BookController --resource --model=Book
+
+------------ flowbite ----------- 
+
+https://flowbite.com/docs/getting-started/laravel/
+
+---------------------------------
