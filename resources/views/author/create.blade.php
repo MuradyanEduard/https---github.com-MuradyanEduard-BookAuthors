@@ -1,59 +1,50 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="box-border  w-4/6 p-4 border-4 m-auto mt-6 min-h-[80vh]">
-        @include('components.navbar')
+    <div class="m-auto max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+        <a href="#">
+            <img class="rounded-t-lg" src="{{ asset('images/author.jpeg') }}" alt="" />
+        </a>
+        <div class="p-5">
+            <form id="form-create" action="{{ route('author.store') }}" method="POST">
+                @csrf
+                <div class="mb-3">
+                    <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Author
+                        name</label>
+                    <input type="text" id="title" name="name"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="Author" required>
+                </div>
 
-        <!--main-->
-        <div class="flex flex-wrap justify-evenly" class="w-[50%]">
-            <div class="box-border  w-full p-4 border-4 m-6">
-                <form action="{{ route('author.store') }}" method="POST">
-                    @csrf
-                    @if (session()->has('message'))
-                        <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
-                            role="alert">
-                            <span class="font-medium"> {{ session()->get('message') }} </span>
-                        </div>
-                    @endif
-                    <div class="w-full">
-                        <label for="name" class="block m-5 text-sm font-medium text-gray-900 dark:text-white">Author
-                            Title</label>
-                        <input type="text" name="name"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mt-5 mb-5"
-                            placeholder="name">
-                        @error('name')
-                            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 mt-3 rounded relative"
-                                role="alert">
-                                {{ $message }}
-                            </div>
-                        @enderror
-
-                        <img src={{ asset('images/author.jpeg') }} class="w-full mt-3" alt="">
+                @error('name')
+                    <div class="mb-3 bg-red-100 border border-red-400 text-red-700 px-4 py-3 mt-3 rounded relative"
+                        role="alert">
+                        {{ $message }}
                     </div>
+                @enderror
 
-                    <div class="w-full mt-[20px]">
-                        <select class="js-example-basic-multiple" name="books[]" multiple="multiple">
-                            @foreach ($books as $book)
-                                <option value="{{ $book->id }}">{{ $book->title }}</option>
-                            @endforeach
-                        </select>
-                        @error('books')
-                            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 mt-3 rounded relative"
-                                role="alert">
-                                {{ $message }}
-                            </div>
-                        @enderror
+                <h2 class="mb-3 text-lg font-semibold text-gray-900 dark:text-white">Books:</h2>
+                <select class="js-example-basic-multiple" name="books[]" multiple="multiple">
+                    @foreach ($books as $book)
+                        <option value="{{ $book->id }}">{{ $book->name }}</option>
+                    @endforeach
+                </select>
+
+                @error('books')
+                    <div class="mb-3 bg-red-100 border border-red-400 text-red-700 px-4 py-3 mt-3 rounded relative"
+                        role="alert">
+                        {{ $message }}
                     </div>
+                @enderror
 
-                    <div class="w-[50%] m-auto mt-[20px]">
-                        <input type="submit"
-                            class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                            value="Create Author">
+                <a href="#" onclick="event.preventDefault(); document.getElementById('form-create').submit();"
+                    class="mt-3 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    Create
+                    <i class="fa fa-plus w-4 h-4 ml-2 -mr-1"></i>
+                    <input type="submit" value=" ">
+                </a>
+            </form>
 
-                    </div>
-
-                </form>
-            </div>
         </div>
     </div>
 @endsection

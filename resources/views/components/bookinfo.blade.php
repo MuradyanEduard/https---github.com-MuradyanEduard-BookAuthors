@@ -1,46 +1,45 @@
-<div class="w-full">
-    <p>{{ $book->title }}</p>
-    <img src={{ asset('images/book.jpg') }} style="width:100%;" alt="">
-</div>
+<div class="m-5 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <a href="#">
+        <img class="rounded-t-lg" src="{{ asset('images/book.jpg') }}" alt="" />
+    </a>
+    <div class="p-5">
+        <a href="#">
+            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Book: {{ $book->title }}
+            </h5>
+        </a>
+        <h2 class="mb-3 text-lg font-semibold text-gray-900 dark:text-white">Authors:</h2>
+        <ol class="mb-3 max-w-md space-y-1 text-gray-500 list-decimal list-inside dark:text-gray-400">
+            <li>
+                @foreach ($book->authors as $author)
+                    <span class="font-semibold text-gray-900 dark:text-white">{{ $author->name }} </span>
+                @endforeach
+            </li>
+        </ol>
 
-<div class="w-full mt-[20px]">
-    <select class="js-example-basic-multiple" name="authors[]" multiple="multiple" disabled>
-        @foreach ($book->authors as $author)
-            <option value="{{ $author->id }}" selected>{{ $author->name }}</option>
-        @endforeach
-    </select>
-</div>
+        <a href="{{ route('book.show', $book) }}"
+            class="m-1 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            Show
+            <i class="fa fa-eye w-4 h-4 ml-2 -mr-1" aria-hidden="true"></i>
+        </a>
 
-<div class="flex flex-row mt-[7px] ">
-    <div class="basis-1/5">
-        <a href="#"onclick="event.preventDefault(); document.getElementById('form-search{{ $book->id }}').submit();"
-            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
-            <img class="min-w-[25px] min-h-[25px]" src="{{ asset('images/search.png') }}" alt="">
+        <a href="{{ route('book.edit', $book) }}"
+            class="m-1 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            Edit
+            <i class="fa fa-edit w-4 h-4 ml-2 -mr-1"></i>
         </a>
-        <form id="form-search{{ $book->id }}" action="{{ route('book.show', $book) }}" method="GET">
-            @csrf
-            <input type="submit" class="btn-action btn-search" value=" ">
-        </form>
-    </div>
-    <div class="basis-1/5">
-        <a href="#"onclick="event.preventDefault(); document.getElementById('form-edit{{ $book->id }}').submit();"
-            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
-            <img class="min-w-[25px] min-h-[25px]" src="{{ asset('images/edit.png') }}" alt="">
+
+        <a href="#"
+            onclick="if(confirm('Are you sure?')){event.preventDefault(); document.getElementById('form-remove{{ $book->id }}').submit();}"
+            class="m-1 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            Remove
+            <i class="fa fa-trash w-4 h-4 ml-2 -mr-1" aria-hidden="true"></i>
+
+            <form id="form-remove{{ $book->id }}" action="{{ route('book.destroy', $book) }}" method="POST"
+                onsubmit="return confirm('Are you sure?')">
+                @csrf
+                @method('DELETE')
+            </form>
         </a>
-        <form id="form-edit{{ $book->id }}" action="{{ route('book.edit', $book) }}" method="GET">
-            @csrf
-            <input type="submit" class="btn-action btn-edit" value=" ">
-        </form>
-    </div>
-    <div class="basis-1/5">
-        <a href="#"onclick="if(confirm('Are you sure?')){event.preventDefault(); document.getElementById('form-remove{{ $book->id }}').submit();}"
-            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
-            <img class="min-w-[25px] min-h-[25px]" src="{{ asset('images/delete.png') }}" alt="">
-        </a>
-        <form id="form-remove{{ $book->id }}" action="{{ route('book.destroy', $book) }}" method="POST"
-            onsubmit="return confirm('Are you sure?')">
-            @csrf
-            @method('DELETE')
-        </form>
+
     </div>
 </div>

@@ -23,23 +23,22 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     {{-- <!-- Tilewind -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css"  rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script> --}}
 
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-    @vite('resources/css/app.css')
-
+    @vite(['resources/css/app.css','resources/js/app.js'])
 </head>
 
 <body>
 
     <div id="app">
+        @include('components.navbar')
 
         <main class="py-4">
             @yield('content')
         </main>
-
     </div>
 
     <!-- JQuery -->
