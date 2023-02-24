@@ -1,55 +1,59 @@
 @extends('layouts.app')
 
 @section('content')
+    <div class="box-border  w-4/6 p-4 border-4 m-auto mt-6 min-h-[80vh]">
+        @include('components.navbar')
 
-<div class="container">
-    <div class="col-12 col-md-10 col-lg-9 col-xl-8" style="margin:auto;">
-        <div class="row" style="box-shadow: 2px 2px 4px 4px #888;min-height: 200px;">
-            <nav-bar-component></nav-bar-component>
-            <section class="content">
-                <div class="container-fluid" style="padding:50px">
-                    <form action="{{ route('book.store') }}" method="POST">
-                        @csrf
-                        @if(session()->has('message'))
-                            <div class="col-md-12">
-                                <div class="alert alert-success" role="alert">
-                                    {{ session()->get('message') }}
-                                </div>
-                            </div>
-                        @endif
-                        @foreach ($errors->all() as $error)
-                            <div class="alert alert-danger">{{ $error }}</div>
-                        @endforeach
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <input type="text"  name="title" class="form-control" placeholder="Book title">
-                                    <book-author-component :buttons='{search:false,edit:false,remove:false,}' ></book-author-component>
-                                </div>
-                            </div>
-                            <div class="row">
-
-                                <div class="col-md-6" style="margin-top: 15px;">
-                                    <select class="js-example-basic-multiple" name="authors[]" multiple="multiple">
-                                        @foreach ($authors as $author)
-                                            <option value="{{$author->id}}">{{$author->name}}</option>
-                                        @endforeach
-                                    </select>            
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6" >
-                                    <input type="submit" value="Create Book" style="background: #4bb1b1; color: white; height: 40px; margin-top: 15px; font-weight: 500; width: 250px; border-radius: 8px; outline: none!important; border: none; cursor:pointer;">
-                                </div>
-                            </div>
+        <!--main-->
+        <div class="flex flex-wrap justify-evenly" class="w-[50%]">
+            <div class="box-border  w-full p-4 border-4 m-6">
+                <form action="{{ route('book.store') }}" method="POST">
+                    @csrf
+                    @if (session()->has('message'))
+                        <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
+                            role="alert">
+                            <span class="font-medium"> {{ session()->get('message') }} </span>
                         </div>
-                    </div>    
-                    </form>
-                </div>
-            </section>
-            
+                    @endif
+                    <div class="w-full">
+                        <label for="title" class="block m-5 text-sm font-medium text-gray-900 dark:text-white">Book
+                            Title</label>
+                        <input type="text" name="title"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mt-5 mb-5"
+                            placeholder="title">
+                        @error('title')
+                            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 mt-3 rounded relative"
+                                role="alert">
+                                {{ $message }}
+                            </div>
+                        @enderror
+
+                        <img src={{ asset('images/book.jpg') }} class="w-full mt-3" alt="">
+                    </div>
+
+                    <div class="w-full mt-[20px]">
+                        <select class="js-example-basic-multiple" name="authors[]" multiple="multiple">
+                            @foreach ($authors as $author)
+                                <option value="{{ $author->id }}">{{ $author->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('authors')
+                            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 mt-3 rounded relative"
+                                role="alert">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+
+                    <div class="w-[50%] m-auto mt-[20px]">
+                        <input type="submit"
+                            class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                            value="Create Book">
+
+                    </div>
+
+                </form>
+            </div>
         </div>
     </div>
-</div>
-
 @endsection

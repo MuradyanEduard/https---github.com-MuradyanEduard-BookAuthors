@@ -31,7 +31,7 @@ class BookController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(BookRequest $request): RedirectResponse
     {        
         $book = Book::create($request->all());
         $book->authors()->sync($request->authors);
@@ -58,9 +58,8 @@ class BookController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Book $book): RedirectResponse
-    {
-        
+    public function update(BookRequest $request, Book $book): RedirectResponse
+    {        
         $book->update($request->all());
         $book->authors()->sync($request->authors);
         return redirect()->route('book.edit',['book' => $book])->with('message', 'Book successfully updated!');
