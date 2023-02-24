@@ -17,9 +17,8 @@ use App\Http\Controllers\AuthorController;
 
 Auth::routes(['verify' => false]);
 
-Route::middleware(['auth', 'verified'])->group(function(){
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [BookController::class, 'index']);
     Route::resource('book', BookController::class);
     Route::resource('author', AuthorController::class);
 });
-

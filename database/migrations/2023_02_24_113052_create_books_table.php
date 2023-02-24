@@ -15,8 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->timestamps();
-        });
-    }
+        });    }
 
     /**
      * Reverse the migrations.

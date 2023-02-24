@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="box-border  w-5/6 p-4 border-4 m-auto mt-6 min-h-[80vh]">
+    <div class="m-5 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <!--main-->
         <div class="flex flex-wrap justify-start">
             @foreach ($authors as $author)

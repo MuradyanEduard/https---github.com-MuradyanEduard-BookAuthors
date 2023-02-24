@@ -15,6 +15,11 @@ class AuthorController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function __construct()
+    {
+        $this->middleware('check.author');
+    }
+
     public function index(): View
     {
         return view('author.index', ['authors' => Author::with('books')->get()]);
@@ -25,7 +30,7 @@ class AuthorController extends Controller
      */
     public function create(): View
     {
-        return view('author.create',['books'=> Book::all()]);
+        return view('author.create', ['books' => Book::all()]);
     }
 
     /**
@@ -44,7 +49,7 @@ class AuthorController extends Controller
      */
     public function show(Author $author): View
     {
-        return view('author.show',['author' => $author->load('books')]);
+        return view('author.show', ['author' => $author->load('books')]);
     }
 
     /**
@@ -52,7 +57,7 @@ class AuthorController extends Controller
      */
     public function edit(Author $author): View
     {
-        return view('author.edit',['author' => Author::where('id' , '=' , $author->id )->first(),'books'=> Book::all()]);
+        return view('author.edit', ['author' => Author::where('id', '=', $author->id)->first(), 'books' => Book::all()]);
     }
 
     /**
@@ -62,7 +67,7 @@ class AuthorController extends Controller
     {
         $author->update($request->all());
         $author->books()->sync($request->books);
-        return redirect()->route('author.edit',['author' => $author])->with('message', 'Author successfully updated!');
+        return redirect()->route('author.edit', ['author' => $author])->with('message', 'Author successfully updated!');
     }
 
     /**

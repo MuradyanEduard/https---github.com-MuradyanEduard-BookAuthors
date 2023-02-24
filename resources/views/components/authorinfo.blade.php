@@ -9,11 +9,11 @@
         </a>
         <h2 class="mb-3 text-lg font-semibold text-gray-900 dark:text-white">Books:</h2>
         <ol class="mb-3 max-w-md space-y-1 text-gray-500 list-decimal list-inside dark:text-gray-400">
-            <li>
-                @foreach ($author->books as $book)
+            @foreach ($author->books as $book)
+                <li>
                     <span class="font-semibold text-gray-900 dark:text-white">{{ $book->title }} </span>
-                @endforeach
-            </li>
+                </li>
+            @endforeach
         </ol>
 
         <a href="{{ route('author.show', $author) }}"

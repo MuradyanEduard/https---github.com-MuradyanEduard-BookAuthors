@@ -4,6 +4,9 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+
 class BookRequest extends FormRequest
 {
     /**
@@ -23,7 +26,7 @@ class BookRequest extends FormRequest
     {
         return [
             'title' => 'required',
-            'authors' => 'required'
+            'authors' => ((User::ROLE_AUTHOR != Auth::user()->role) ? 'required' : '')
         ];
     }
 

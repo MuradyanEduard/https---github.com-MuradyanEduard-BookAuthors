@@ -2,11 +2,17 @@
 
 @section('content')
     <div class="m-auto max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+        @if (session()->has('message'))
+            <div class="p-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
+                role="alert">
+                <span class="font-medium"> {{ session()->get('message') }} </span>
+            </div>
+        @endif
         <a href="#">
             <img class="rounded-t-lg" src="{{ asset('images/book.jpg') }}" alt="" />
         </a>
         <div class="p-5">
-            <form id="form-create" action="{{ route('book.update', $book) }}" method="POST">
+            <form id="form-edit" action="{{ route('book.update', $book) }}" method="POST">
                 @csrf
                 @method('PUT')
                 <div class="mb-3">
@@ -23,17 +29,19 @@
                         {{ $message }}
                     </div>
                 @enderror
-
-                <h2 class="mb-3 text-lg font-semibold text-gray-900 dark:text-white">Authors:</h2>
-                <select class="js-example-basic-multiple" name="authors[]" multiple="multiple">
-                    @foreach ($book->authors as $author)
-                        <option value="{{ $author->id }}" selected>{{ $author->name }}</option>
-                    @endforeach
-                    @foreach ($authors as $author)
-                        <option value="{{ $author->id }}">{{ $author->name }}</option>
-                    @endforeach
-                </select>
-
+                @if (auth('web')->user()->role != App\Models\User::ROLE_AUTHOR)
+                    <h2 class="mb-3 text-lg font-semibold text-gray-900 dark:text-white">Authors:</h2>
+                    <select class="js-example-basic-multiple" name="authors[]" multiple="multiple">
+                        @foreach ($book->authors as $author)
+                            <option value="{{ $author->id }}" selected>{{ $author->name }}</option>
+                        @endforeach
+                        @foreach ($authors as $author)
+                            <option value="{{ $author->id }}">{{ $author->name }}</option>
+                        @endforeach
+                    </select>
+                @else
+                    <select name="authors[]" hidden></select>
+                @endif
                 @error('authors')
                     <div class="mb-3 bg-red-100 border border-red-400 text-red-700 px-4 py-3 mt-3 rounded relative"
                         role="alert">

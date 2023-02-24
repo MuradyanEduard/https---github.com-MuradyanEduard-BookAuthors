@@ -9,37 +9,40 @@
         </a>
         <h2 class="mb-3 text-lg font-semibold text-gray-900 dark:text-white">Authors:</h2>
         <ol class="mb-3 max-w-md space-y-1 text-gray-500 list-decimal list-inside dark:text-gray-400">
-            <li>
-                @foreach ($book->authors as $author)
+
+            @foreach ($book->authors as $author)
+                <li>
                     <span class="font-semibold text-gray-900 dark:text-white">{{ $author->name }} </span>
-                @endforeach
-            </li>
+                </li>
+            @endforeach
+
         </ol>
+        @if (auth('web')->user()->role != App\Models\User::ROLE_CUSTOMER)
+            <a href="{{ route('book.show', $book) }}"
+                class="m-1 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                Show
+                <i class="fa fa-eye w-4 h-4 ml-2 -mr-1" aria-hidden="true"></i>
+            </a>
 
-        <a href="{{ route('book.show', $book) }}"
-            class="m-1 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-            Show
-            <i class="fa fa-eye w-4 h-4 ml-2 -mr-1" aria-hidden="true"></i>
-        </a>
+            <a href="{{ route('book.edit', $book) }}"
+                class="m-1 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                Edit
+                <i class="fa fa-edit w-4 h-4 ml-2 -mr-1"></i>
+            </a>
 
-        <a href="{{ route('book.edit', $book) }}"
-            class="m-1 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-            Edit
-            <i class="fa fa-edit w-4 h-4 ml-2 -mr-1"></i>
-        </a>
+            <a href="#"
+                onclick="if(confirm('Are you sure?')){event.preventDefault(); document.getElementById('form-remove{{ $book->id }}').submit();}"
+                class="m-1 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                Remove
+                <i class="fa fa-trash w-4 h-4 ml-2 -mr-1" aria-hidden="true"></i>
 
-        <a href="#"
-            onclick="if(confirm('Are you sure?')){event.preventDefault(); document.getElementById('form-remove{{ $book->id }}').submit();}"
-            class="m-1 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-            Remove
-            <i class="fa fa-trash w-4 h-4 ml-2 -mr-1" aria-hidden="true"></i>
-
-            <form id="form-remove{{ $book->id }}" action="{{ route('book.destroy', $book) }}" method="POST"
-                onsubmit="return confirm('Are you sure?')">
-                @csrf
-                @method('DELETE')
-            </form>
-        </a>
+                <form id="form-remove{{ $book->id }}" action="{{ route('book.destroy', $book) }}" method="POST"
+                    onsubmit="return confirm('Are you sure?')">
+                    @csrf
+                    @method('DELETE')
+                </form>
+            </a>
+        @endif
 
     </div>
 </div>
