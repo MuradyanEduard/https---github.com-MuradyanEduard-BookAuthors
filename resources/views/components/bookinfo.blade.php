@@ -50,7 +50,7 @@
         @else
             <div class="relative w-full">
 
-                <form id="form-cart{{ $book->id }}" action="{{ route('cart.add') }}"method="POST">
+                <form id="form-cart{{ $book->id }}" action="{{ route('order.add') }}"method="POST">
                     @csrf
                     <input type="hidden" name="id" value="{{ $book->id }}">
                     <div class="flex">

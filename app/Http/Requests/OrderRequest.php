@@ -4,7 +4,10 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CartRequest extends FormRequest
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+
+class OrderRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

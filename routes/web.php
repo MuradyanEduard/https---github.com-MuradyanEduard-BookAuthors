@@ -3,7 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\AuthorController;
-use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
+use App\Http\Middleware\CheckOrder;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,5 +23,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [BookController::class, 'index']);
     Route::resource('book', BookController::class);
     Route::resource('author', AuthorController::class);
-    Route::post('/add_cart', [CartController::class,'add'])->name('cart.add');
+    Route::post('/order/add', [OrderController::class, 'add'])->name('order.add');
+    Route::post('/order/remove', [OrderController::class, 'remove'])->name('order.remove');
+    Route::post('/order/store', [OrderController::class, 'store'])->name('order.store');
+    Route::get('/order', [OrderController::class, 'index'])->name('order.index')->middleware(CheckOrder::class);
+    ;
 });
