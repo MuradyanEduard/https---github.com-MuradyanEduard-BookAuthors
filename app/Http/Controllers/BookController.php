@@ -31,11 +31,11 @@ class BookController extends Controller
                 ->whereHas('authors', function ($query) {
                     $query->where('authors.id', Auth::user()->id);
                 })
-                ->get();
+                ->paginate(6);
 
             return view('book.index', ['books' => $books]);
         } else
-            return view('book.index', ['books' => Book::with('authors')->get()]);
+            return view('book.index', ['books' => Book::with('authors')->paginate(6)]);
     }
 
     /**
@@ -43,7 +43,10 @@ class BookController extends Controller
      */
     public function create(): View
     {
-        return view('book.create', ['authors' => Author::all()]);
+        if (Auth::user()->role == User::ROLE_AUTHOR) 
+            return view('book.create');
+        else
+            return view('book.create', ['authors' => Author::all()]);
     }
 
     /**
@@ -51,8 +54,13 @@ class BookController extends Controller
      */
     public function store(BookRequest $request): RedirectResponse
     {
+
         $book = Book::create($request->all());
-        $book->authors()->sync($request->authors);
+        if (Auth::user()->role == User::ROLE_AUTHOR) {
+            $book->authors()->sync(Auth::user()->id);
+        }else{
+            $book->authors()->sync($request->authors);
+        }
 
         return redirect()->route('book.create')->with('message', 'Book successfully created!');
     }

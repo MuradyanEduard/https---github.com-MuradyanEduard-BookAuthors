@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\AuthorController;
+use App\Http\Controllers\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,4 +22,5 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [BookController::class, 'index']);
     Route::resource('book', BookController::class);
     Route::resource('author', AuthorController::class);
+    Route::post('/add_cart', [CartController::class,'add'])->name('cart.add');
 });

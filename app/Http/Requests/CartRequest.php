@@ -4,10 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
-
-class BookRequest extends FormRequest
+class CartRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,10 +22,8 @@ class BookRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required',
+            'id' => 'required',
             'count' => 'required|integer|gt:0',
-            'price' => 'required|integer|gt:0',
-            'authors' => ((User::ROLE_AUTHOR != Auth::user()->role) ? 'required' : '')
         ];
     }
 

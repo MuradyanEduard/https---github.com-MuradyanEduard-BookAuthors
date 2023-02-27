@@ -22,7 +22,7 @@ class AuthorController extends Controller
 
     public function index(): View
     {
-        return view('author.index', ['authors' => Author::with('books')->get()]);
+        return view('author.index', ['authors' => Author::with('books')->paginate(6)]);
     }
 
     /**

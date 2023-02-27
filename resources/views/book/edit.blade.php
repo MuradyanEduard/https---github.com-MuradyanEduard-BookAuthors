@@ -29,6 +29,35 @@
                         {{ $message }}
                     </div>
                 @enderror
+
+                <div class="mb-3">
+                    <label for="count" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Book
+                        Count</label>
+                    <input type="number" id="count" name="count"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="10" required value='{{ $book->count }}'>
+                </div>
+
+                @error('count')
+                    <div class="mb-3 bg-red-100 border border-red-400 text-red-700 px-4 py-3 mt-3 rounded relative"
+                        role="alert">
+                        {{ $message }}
+                    </div>
+                @enderror
+                <div class="mb-3">
+                    <label for="decimal" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Book
+                        Price</label>
+                    <input type="number" id="price" name="price"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="10.000" required value='{{ $book->price }}'>
+                </div>
+
+                @error('price')
+                    <div class="mb-3 bg-red-100 border border-red-400 text-red-700 px-4 py-3 mt-3 rounded relative"
+                        role="alert">
+                        {{ $message }}
+                    </div>
+                @enderror
                 @if (auth('web')->user()->role != App\Models\User::ROLE_AUTHOR)
                     <h2 class="mb-3 text-lg font-semibold text-gray-900 dark:text-white">Authors:</h2>
                     <select class="js-example-basic-multiple" name="authors[]" multiple="multiple">

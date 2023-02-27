@@ -2,3 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
+.pagination-block p {
+    margin-right: 20px;
+}
