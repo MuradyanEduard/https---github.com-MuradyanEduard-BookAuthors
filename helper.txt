@@ -23,6 +23,10 @@ php artisan make:controller BookController --resource --model=Book
 https://flowbite.com/docs/getting-started/laravel/
 
 -----------Vue Js-----------------
+composer require inertiajs/inertia-laravel
+npm install @inertiajs/inertia @inertiajs/inertia-vue vue
+
+
 npm install @vue/cli-service@latest
 npm install -g @vue/cli
 vue add router

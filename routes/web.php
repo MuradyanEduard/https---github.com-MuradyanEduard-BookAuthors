@@ -17,6 +17,7 @@ use App\Http\Middleware\CheckOrder;
 |
 */
 
+
 Auth::routes(['verify' => false]);
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -27,5 +28,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/order/remove', [OrderController::class, 'remove'])->name('order.remove');
     Route::post('/order/store', [OrderController::class, 'store'])->name('order.store');
     Route::get('/order', [OrderController::class, 'index'])->name('order.index')->middleware(CheckOrder::class);
-    ;
 });
+
+// Route::get('/{any}', function () {
+//     return view('layouts.vue');
+// })->where('any', '.*');

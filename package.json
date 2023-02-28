@@ -13,11 +13,20 @@
         "axios": "^1.1.2",
         "bootstrap": "^5.2.3",
         "flowbite": "^1.6.3",
+        "install": "^0.13.0",
         "laravel-vite-plugin": "^0.7.2",
+        "npm": "^9.5.1",
         "postcss": "^8.4.21",
         "sass": "^1.56.1",
+        "tailwindcss": "^3.2.7",
         "vite": "^4.0.0",
         "vue": "^3.2.36",
         "vue-router": "^4.1.6"
+    },
+    "dependencies": {
+        "@inertiajs/inertia": "^0.11.1",
+        "@inertiajs/inertia-vue3": "^0.6.0",
+        "@inertiajs/progress": "^0.2.7",
+        "@inertiajs/vue3": "^1.0.2"
     }
 }

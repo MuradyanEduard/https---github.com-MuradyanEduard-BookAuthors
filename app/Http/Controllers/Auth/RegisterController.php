@@ -9,6 +9,7 @@ use App\Models\Author;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Inertia\Inertia;
 
 class RegisterController extends Controller
 {
@@ -77,7 +78,10 @@ class RegisterController extends Controller
             'role' => $data['role'],
             'author_id' => $author->id
         ]);
+    }
 
-
+    public function showRegistrationForm()
+    {
+        return Inertia::render('auth/Register');
     }
 }

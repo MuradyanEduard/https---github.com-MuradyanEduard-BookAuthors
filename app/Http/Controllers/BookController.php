@@ -14,6 +14,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
 
+use Inertia\Inertia;
+
 class BookController extends Controller
 {
     /**
@@ -43,7 +45,7 @@ class BookController extends Controller
      */
     public function create(): View
     {
-        if (Auth::user()->role == User::ROLE_AUTHOR) 
+        if (Auth::user()->role == User::ROLE_AUTHOR)
             return view('book.create');
         else
             return view('book.create', ['authors' => Author::all()]);
@@ -58,7 +60,7 @@ class BookController extends Controller
         $book = Book::create($request->all());
         if (Auth::user()->role == User::ROLE_AUTHOR) {
             $book->authors()->sync(Auth::user()->id);
-        }else{
+        } else {
             $book->authors()->sync($request->authors);
         }
 
@@ -68,8 +70,11 @@ class BookController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Book $book): View|RedirectResponse
+    public function show(Book $book) //: View|RedirectResponse
+
     {
+        return Inertia::render('auth/Register');
+
         if (Auth::user()->role == User::ROLE_AUTHOR) {
 
             foreach ($book->authors as $author) {
