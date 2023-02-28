@@ -18,8 +18,11 @@ ftnk pass:cdyncupgkxyprozm
 
 php artisan make:controller BookController --resource --model=Book
 
------------- flowbite ----------- 
+------------ flowbite -----------
 
 https://flowbite.com/docs/getting-started/laravel/
 
----------------------------------
+-----------Vue Js-----------------
+npm install @vue/cli-service@latest
+npm install -g @vue/cli
+vue add router
