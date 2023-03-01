@@ -14,6 +14,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
 
+use Session;
 use Inertia\Inertia;
 
 class BookController extends Controller
@@ -26,14 +27,17 @@ class BookController extends Controller
         $this->middleware('check.book', ['except' => ['index']]); //only
     }
 
-    public function index(): View
+    public function index()
     {
+
         if (Auth::user()->role == User::ROLE_AUTHOR) {
             $books = Book::with('authors')
                 ->whereHas('authors', function ($query) {
                     $query->where('authors.id', Auth::user()->id);
                 })
                 ->paginate(6);
+
+            return Inertia::render('book/Index',['books' => $books,'user' => Auth::user(),'basket'=>Session::get('basket')]);
 
             return view('book.index', ['books' => $books]);
         } else
