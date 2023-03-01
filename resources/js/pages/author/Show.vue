@@ -1,9 +1,9 @@
 <script setup>
-import BookComponent from '../../components/BookComponent.vue';
-import NavBarComponent from '../../components/NavBarComponent.vue';
+import AuthorComponent from '../../components/AuthorComponent.vue';
 
-components: { BookComponent, NavBarComponent }
-defineProps(['user', 'book', 'messages', 'errors'])
+const csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+components: { AuthorComponent }
+defineProps(['user', 'author', 'messages', 'errors'])
 
 
 $(document).ready(function () {
@@ -20,10 +20,9 @@ $(document).ready(function () {
 </script>
 
 <template>
-    <NavBarComponent :user="user" />
     <div
         class="m-auto  max-w-[80%] bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-        <BookComponent class="m-auto mt-5 mb-5" :book="book" :ediatable="true" :showable="false" :basketAdable="false" />
+        <AuthorComponent class="m-auto mt-5 mb-5" :author="author" :ediatable="true" :showable="false" />
     </div>
 </template>
 

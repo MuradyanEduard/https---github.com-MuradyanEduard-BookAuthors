@@ -14,7 +14,7 @@ defineProps({
         type: Boolean,
         default: false,
     },
-    basketAdable: {
+    basket: {
         type: Boolean,
         default: false,
     },
@@ -71,65 +71,27 @@ const csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('con
 
             <div v-if="basket" class="relative w-full">
 
-                <form :id="`form-cart${book.id}`" action="order/add" method="POST">
-                    <input type="hidden" name="_token" :value=csrf>
-                    <input type="hidden" name="id" :value=book.id>
-                    <div class="flex">
-                        <div class="m-3">
-                            <label for="count" class="block m-auto text-sm font-medium text-gray-900 dark:text-white">
-                                Count</label>
-                        </div>
-                        <div>
-                            <input type="number" id="count" name="count"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                :placeholder=$book.count required value=''>
-                        </div>
-                        <div>
-                            <a href="#"
-                                onclick="event.preventDefault(); document.getElementById('form-cart${book.id}').submit();"
-                                class="m-1 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                Add <i class="fa fa-shopping-cart w-4 h-4 ml-2 -mr-1" aria-hidden="true"></i>
-                            </a>
-                        </div>
+                <input type="hidden" v-model="_token">
+                <input type="hidden" v-model="id">
+                <div class="flex">
+                    <div class="m-3">
+                        <label for="count" class="block m-auto text-sm font-medium text-gray-900 dark:text-white">
+                            Count</label>
                     </div>
-                    <input type="submit" value=" ">
-                </form>
+                    <div>
+                        <input type="number" id="count" v-model="count"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            :placeholder=book.count required>
+                    </div>
+                    <div>
+                        <Link href="order/add" :data="{ count }" preserve-state method="POST"
+                            class="m-1 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        Add <i class="fa fa-shopping-cart w-4 h-4 ml-2 -mr-1" aria-hidden="true"></i>
+                        </Link>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </template>
 
-<style scoped>
-p {
-    text-align: center;
-}
-
-.div-input {
-    max-width: 35px;
-}
-
-.btn-search {
-    background: url(/images/search.png);
-    color: black;
-}
-
-.btn-edit {
-    background: url(/images/edit.png);
-}
-
-.btn-remove {
-    background: url(/images/delete.png);
-}
-
-.btn-action {
-    background-size: 100% 100%;
-    border: none;
-    background-repeat: no-repeat;
-    border: 0;
-    margin-top: 7px;
-    display: block;
-    height: 25px;
-    width: 25px;
-
-}
-</style>

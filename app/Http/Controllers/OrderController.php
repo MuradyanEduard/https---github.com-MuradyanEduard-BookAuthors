@@ -11,12 +11,15 @@ use App\Models\Order;
 use App\Models\OrdersBook;
 use App\Models\Book;
 use App\Models\User;
+use Inertia\Inertia;
 use Session;
 
 class OrderController extends Controller
 {
     public function add(OrderRequest $request): RedirectResponse
     {
+        dd($request);
+
         $book = Book::where('id', $request->id)->first();
         $key = $book->id;
 
@@ -45,6 +48,7 @@ class OrderController extends Controller
             Session::put('basket', $basket);
         }
 
+        dd($request->session()->all());
         return redirect()->route('book.index');
     }
 
@@ -99,15 +103,16 @@ class OrderController extends Controller
 
     public function index()
     {
-        // $order = Order::with('author')->first();
+        $orders;
 
         if (Auth::user()->role == User::ROLE_CUSTOMER) {
             $orders = Order::with('books')->with('author')->with('orders_books')->where('author_id', Auth::user()->id)->paginate(6);
-            return view('order.index', ['orders' => $orders]); //->with('message', 'Book successfully updated!');
         } else {
             $orders = Order::with('books')->with('author')->with('orders_books')->paginate(6);
-            return view('order.index', ['orders' => $orders]); //->with('message', 'Book successfully updated!');
         }
+
+        return Inertia::render('order/Index', ['orders' => $orders, 'user' => Auth::user()]);
+
 
     }
 

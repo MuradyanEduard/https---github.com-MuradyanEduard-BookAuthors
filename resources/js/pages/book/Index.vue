@@ -1,10 +1,10 @@
 <script setup>
-import BookAuthorComponent from '../../components/BookAuthorComponent.vue';
+import BookComponent from '../../components/BookComponent.vue';
 import NavBarComponent from '../../components/NavBarComponent.vue';
 import Pagination from '../../components/Pagination.vue'
 
 const csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-components: { BookAuthorComponent, NavBarComponent }
+components: { BookComponent, NavBarComponent }
 defineProps(['books', 'user', 'basket', 'messages'])
 
 
@@ -12,13 +12,14 @@ defineProps(['books', 'user', 'basket', 'messages'])
 
 
 <template>
-    <NavBarComponent />
+    <NavBarComponent :user="user" />
+
+
     <div class="m-auto max-w-[80%] bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <div class="flex flex-wrap justify-start">
             <div v-for="book in books.data">
-                <BookAuthorComponent v-if="user.role == 2" :book="book" :ediatable="false" :showable="false"
-                    :basketAdable="true" />
-                <BookAuthorComponent v-else :book="book" :ediatable="true" :showable="true" :basketAdable="false" />
+                <BookComponent v-if="user.role == 2" :book="book" :ediatable="false" :showable="false" :basket="true" />
+                <BookComponent v-else :book="book" :ediatable="true" :showable="true" :basket="false" />
             </div>
         </div>
 

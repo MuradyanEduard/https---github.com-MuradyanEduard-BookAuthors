@@ -1,8 +1,8 @@
 <script setup>
-import BookAuthorComponent from '../../components/BookAuthorComponent.vue';
+import NavBarComponent from '../../components/NavBarComponent.vue';
+components: { NavBarComponent }
 
 const csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-components: { BookAuthorComponent }
 defineProps(['user', 'authors', 'messages', 'errors'])
 
 
@@ -20,6 +20,7 @@ $(document).ready(function () {
 </script>
 
 <template>
+    <NavBarComponent :user="user" />
     <div class="m-auto max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <div v-for="m in messages"
             class="p-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
