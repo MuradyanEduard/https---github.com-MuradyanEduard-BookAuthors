@@ -31,10 +31,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
     @vite('resources/js/app.js')
     @inertiaHead
+    @routes
 </head>
 
 <body>
-
+    {{-- @include('components.navbar') --}}
     @inertia
     {{-- <div id="app">
         @include('components.navbar')
@@ -46,13 +47,7 @@
     </div> --}}
 
     <!-- JQuery -->
-    <script>
-        $(document).ready(function() {
-            $('.js-example-basic-multiple').select2({
-                width: '100%'
-            });
-        });
-    </script>
+    <script></script>
 
 
 

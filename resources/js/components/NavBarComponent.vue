@@ -1,54 +1,35 @@
+<script setup>
+import { Link } from '@inertiajs/vue3'
+</script>
+
 <template>
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light" style="max-height:100px!important">
-  <!-- Container wrapper -->
-  <div class="container-fluid">
-    <!-- Collapsible wrapper -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <!-- Left links -->
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-            <a class="nav-link" href="/book">Books </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="/book/create">Create Book</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="/author">Authors </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="/author/create">Create Authors </a>
-        </li>
-      </ul>
-      <!-- Left links -->
-    </div>
-    <!-- Collapsible wrapper -->
-
-    <!-- Right elements -->
-    <div class="d-flex align-items-center">
-        <form class="form-inline my-2 my-lg-0">
-            <input class=" my-2 my-sm-0" type="search" style="margin:auto 10px"  placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-    </div>
-    <!-- Right elements -->
-  </div>
-  <!-- Container wrapper -->
-</nav>
-<!-- Navbar -->
-
+    <!-- Navbar -->
+    <Link :href="route('book.index')"
+        class="m-1 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+    Book
+    <i class="fa fa-eye w-4 h-4 ml-2 -mr-1" aria-hidden="true"></i>
+    </Link>
+    <Link :href="route('book.create')"
+        class="m-1 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+    Book create
+    <i class="fa fa-eye w-4 h-4 ml-2 -mr-1" aria-hidden="true"></i>
+    </Link>
+    <Link :href="route('author.index')"
+        class="m-1 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+    Author
+    <i class="fa fa-eye w-4 h-4 ml-2 -mr-1" aria-hidden="true"></i>
+    </Link>
+    <Link :href="route('author.create')"
+        class="m-1 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+    Author create
+    <i class="fa fa-eye w-4 h-4 ml-2 -mr-1" aria-hidden="true"></i>
+    </Link>
+    <!-- Navbar -->
 </template>
 
-<script>
-    export default {
-        mounted() {
-            console.log('Component mounted.')
-        }
-    }
-</script>
 
 <style scoped>
 .btn-close {
-  background-color: red;
+    background-color: red;
 }
 </style>

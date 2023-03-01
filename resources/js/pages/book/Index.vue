@@ -1,21 +1,35 @@
-<template>
-    <div class="m-auto max-w-[80%] bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-        <!--main-->
-        <div v-for="book in books" class="flex flex-wrap justify-start">
-            <!-- @foreach ($books as $book)
-                @include('components.bookinfo')
-            @endforeach -->
-            <pre>{{ book }}</pre>
-            <BookAuthorComponent v-if="role == 2" :book="book" :ediatable="false" ::showable="false" :basketAdable="true" />
-            <BookAuthorComponent v-else :book="book" :ediatable="true" ::showable="true" :basketAdable="false" />
+<script setup>
+import BookAuthorComponent from '../../components/BookAuthorComponent.vue';
+import NavBarComponent from '../../components/NavBarComponent.vue';
+import Pagination from '../../components/Pagination.vue'
 
-        </div>
-        <div class="w-full h-[80px] m-auto flex justify-center">
-            <div class="pagination-block">
-                <!-- {{ books.links }} -->
+const csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+components: { BookAuthorComponent, NavBarComponent }
+defineProps(['books', 'user', 'basket', 'messages'])
+
+
+</script>
+
+
+<template>
+    <NavBarComponent />
+    <div class="m-auto max-w-[80%] bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+        <div class="flex flex-wrap justify-start">
+            <div v-for="book in books.data">
+                <BookAuthorComponent v-if="user.role == 2" :book="book" :ediatable="false" :showable="false"
+                    :basketAdable="true" />
+                <BookAuthorComponent v-else :book="book" :ediatable="true" :showable="true" :basketAdable="false" />
             </div>
         </div>
+
+        <div class="w-full h-[80px] m-auto mt-3 mb-3 flex justify-center">
+            <div class="pagination-block">
+                <Pagination :links="books.links" />
+            </div>
+        </div>
+
     </div>
+
 
 
     <div v-if="user.role == 2" id="basket-container">
@@ -44,7 +58,7 @@
                         <i class="fa fa-trash w-4 h-4 ml-2 -mr-1" aria-hidden="true"></i>
 
                         <form id="form-remove11{{ $book['id'] }}" action="{{ route('order.remove') }}" method="POST">
-                            @csrf
+                            <input type="hidden" name="_token" :value=csrf>
                             <input type="hidden" name="id" :value=book.id>
                         </form>
                     </a>
@@ -65,21 +79,3 @@
     </div>
 </template>
 
-<script>
-import BookAuthorComponent from '../../components/BookAuthorComponent.vue';
-
-export default {
-
-    components: { BookAuthorComponent },
-    data() {
-
-        return {
-            csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        }
-    },
-    mounted() {
-        console.log('Component mounted.')
-    },
-    props: ['books', 'user', 'basket']
-}
-</script>

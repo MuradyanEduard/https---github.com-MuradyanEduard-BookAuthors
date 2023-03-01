@@ -16,4 +16,8 @@ class Author extends Model
         return $this->belongsToMany(Book::class, 'books_authors');
     }
 
+    public function users()
+    {
+        return $this->hasOne(User::class);
+    }
 }

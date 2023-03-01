@@ -21,6 +21,7 @@ use App\Http\Middleware\CheckOrder;
 Auth::routes(['verify' => false]);
 
 Route::middleware(['auth', 'verified'])->group(function () {
+    // Route::inertia('/about', 'About');
     Route::get('/', [BookController::class, 'index']);
     Route::resource('book', BookController::class);
     Route::resource('author', AuthorController::class);

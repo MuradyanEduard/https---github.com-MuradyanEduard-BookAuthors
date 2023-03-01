@@ -29,7 +29,6 @@ class BookController extends Controller
 
     public function index()
     {
-
         if (Auth::user()->role == User::ROLE_AUTHOR) {
             $books = Book::with('authors')
                 ->whereHas('authors', function ($query) {
@@ -37,38 +36,48 @@ class BookController extends Controller
                 })
                 ->paginate(6);
 
-            return Inertia::render('book/Index',['books' => $books,'user' => Auth::user(),'basket'=>Session::get('basket')]);
-
-            return view('book.index', ['books' => $books]);
+            return Inertia::render('book/Index', ['books' => $books, 'user' => Auth::user(), 'basket' => Session::get('basket')]);
         } else
-            return view('book.index', ['books' => Book::with('authors')->paginate(6)]);
+            return Inertia::render('book/Index', ['books' => Book::with('authors')->paginate(6), 'user' => Auth::user(), 'basket' => Session::get('basket')]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(): View
+    public function create()
     {
+        $authors = Author::with('users')
+            ->whereHas('users', function ($query) {
+                $query->where('users.role', '!=', User::ROLE_CUSTOMER);
+            })
+            ->get();
+
         if (Auth::user()->role == User::ROLE_AUTHOR)
-            return view('book.create');
+            return Inertia::render('book/Create', ['user' => Auth::user()]);
         else
-            return view('book.create', ['authors' => Author::all()]);
+            return Inertia::render('book/Create', ['user' => Auth::user(), 'authors' => $authors]);
+
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(BookRequest $request): RedirectResponse
+    public function store(BookRequest $request)
     {
-
         $book = Book::create($request->all());
+        $authors = Author::with('users')
+            ->whereHas('users', function ($query) {
+                $query->where('users.role', '!=', User::ROLE_CUSTOMER);
+            })
+            ->get();
+
         if (Auth::user()->role == User::ROLE_AUTHOR) {
             $book->authors()->sync(Auth::user()->id);
         } else {
             $book->authors()->sync($request->authors);
         }
 
-        return redirect()->route('book.create')->with('message', 'Book successfully created!');
+        return Inertia::render('book/Create', ['user' => Auth::user(), 'authors' => $authors, 'messages' => ['Book successfully created!']]);
     }
 
     /**
@@ -77,49 +86,60 @@ class BookController extends Controller
     public function show(Book $book) //: View|RedirectResponse
 
     {
-        return Inertia::render('auth/Register');
-
         if (Auth::user()->role == User::ROLE_AUTHOR) {
 
             foreach ($book->authors as $author) {
                 if ($author->id == Auth::user()->id)
-                    return view('book.show', ['book' => $book->load('authors')]);
+                    return Inertia::render('book/Show', ['book' => $book->load('authors'), 'user' => Auth::user()]);
             }
 
             return redirect()->route('book.index');
         } else
-            return view('book.show', ['book' => $book->load('authors')]);
+            return Inertia::render('book/Show', ['book' => $book->load('authors'), 'user' => Auth::user()]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Book $book): View|RedirectResponse
+    public function edit(Book $book)
     {
+        // dd('barev');
+        $book = Book::where('id', '=', $book->id)->with('authors')->first();
+        $authors = Author::with('users')
+            ->whereHas('users', function ($query) {
+                $query->where('users.role', '!=', User::ROLE_CUSTOMER);
+            })
+            ->get();
+
         if (Auth::user()->role == User::ROLE_AUTHOR) {
 
             foreach ($book->authors as $author) {
                 if ($author->id == Auth::user()->id)
-                    return view('book.edit', ['book' => Book::where('id', '=', $book->id)->with('authors')->first(), 'authors' => []]);
+                    return Inertia::render('book/Edit', ['book' => $book, 'user' => Auth::user(), 'authors' => []]);
             }
 
-            return redirect()->route('book.index');
         } else
-            return view('book.edit', ['book' => Book::where('id', '=', $book->id)->with('authors')->first(), 'authors' => Author::all()]);
+            return Inertia::render('book/Edit', ['book' => $book, 'user' => Auth::user(), 'authors' => $authors]);
+
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(BookRequest $request, Book $book): RedirectResponse
+    public function update(BookRequest $request, Book $book)
     {
         $book->update($request->all());
+        $authors = Author::with('users')
+            ->whereHas('users', function ($query) {
+                $query->where('users.role', '!=', User::ROLE_CUSTOMER);
+            })
+            ->get();
 
         if (Auth::user()->role != User::ROLE_AUTHOR) {
             $book->authors()->sync($request->authors);
         }
 
-        return redirect()->route('book.edit', ['book' => $book])->with('message', 'Book successfully updated!');
+        return Inertia::render('book/Edit', ['book' => $book->load('authors'), 'user' => Auth::user(), 'authors' => $authors, 'messages' => ['Book successfully updated!']]);
     }
 
     /**
@@ -128,7 +148,7 @@ class BookController extends Controller
     public function destroy(Book $book): RedirectResponse
     {
         $book->delete();
-        return redirect()->route('book.index')->with('message', 'Book successfully removed!');
+        return redirect()->route('book.index')->with('messages', 'Book successfully removed!');
     }
 
 }
