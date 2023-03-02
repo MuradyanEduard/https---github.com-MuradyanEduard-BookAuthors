@@ -45,12 +45,7 @@ const search = ref()
                         placeholder="Search...">
                 </div>
 
-                <div class="mr-5" v-if="user.role == 2">
-                    <Link :href="route('order.confirm')"
-                        class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white"
-                        aria-current="page"><i class="fa fa-shopping-cart w-4 h-4 ml-2 -mr-1" aria-hidden="true"></i>
-                    </Link>
-                </div>
+
                 <div>
                     <Link v-if="searchType == 0" :href="route('book.search')" :data="{ search }"
                         class="mr-2 block py-2 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white"
@@ -72,6 +67,12 @@ const search = ref()
                             clip-rule="evenodd"></path>
                     </svg>
 
+                    </Link>
+                </div>
+                <div class="mr-5" v-if="user.role == 2">
+                    <Link :href="route('order.confirm')"
+                        class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white"
+                        aria-current="page"><i class="fa fa-shopping-cart w-4 h-4 ml-2 -mr-1" aria-hidden="true"></i>
                     </Link>
                 </div>
 
