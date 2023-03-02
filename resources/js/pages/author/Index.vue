@@ -7,16 +7,14 @@ const csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('con
 components: { AuthorComponent, NavBarComponent }
 defineProps(['authors', 'user', 'basket', 'messages'])
 
-
 </script>
 
-
 <template>
-    <NavBarComponent :user="user" />
+    <NavBarComponent :user="user" :searchType="1" />
     <div class="m-auto max-w-[80%] bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <div class="flex flex-wrap justify-start">
             <div v-for="author in authors.data">
-                <AuthorComponent v-if="user.role == 2" :author="author" :ediatable="false" :showable="false"
+                <AuthorComponent v-if="user.role == 2" :author="author" :ediatable="false" :showable="true"
                     :basketAdable="true" />
                 <AuthorComponent v-else :author="author" :ediatable="true" :showable="true" />
             </div>

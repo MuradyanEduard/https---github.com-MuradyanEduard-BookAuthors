@@ -1,9 +1,10 @@
 <script setup>
 import { Link } from '@inertiajs/vue3'
+import { ref } from 'vue';
 
-const csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+defineProps(['user', 'searchType'])
 
-defineProps(['user'])
+const search = ref()
 
 </script>
 
@@ -39,9 +40,39 @@ defineProps(['user'])
                         </svg>
                         <span class="sr-only">Search icon</span>
                     </div>
-                    <input type="text" id="search-navbar"
+                    <input type="text" id="search-navbar" v-model="search"
                         class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="Search...">
+                </div>
+
+                <div class="mr-5" v-if="user.role == 2">
+                    <Link :href="route('order.confirm')"
+                        class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white"
+                        aria-current="page"><i class="fa fa-shopping-cart w-4 h-4 ml-2 -mr-1" aria-hidden="true"></i>
+                    </Link>
+                </div>
+                <div>
+                    <Link v-if="searchType == 0" :href="route('book.search')" :data="{ search }"
+                        class="mr-2 block py-2 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white"
+                        aria-current="page">
+                    <svg class="w-5 h-5 text-gray-500" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    </Link>
+                    <Link v-else-if="searchType == 1" :href="route('author.search')" :data="{ search }"
+                        class="mr-2 block py-2 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white"
+                        aria-current="page">
+                    <svg class="w-5 h-5 text-gray-500" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+
+                    </Link>
                 </div>
 
                 <!-- Dropdown menu -->
@@ -95,12 +126,12 @@ defineProps(['user'])
                             class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white"
                             aria-current="page">Books</Link>
                     </li>
-                    <li>
+                    <li v-if="user.role == 0">
                         <Link :href="route('book.create', book)"
                             class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white"
                             aria-current="page">Book Create</Link>
                     </li>
-                    <li v-if="user.role == 0">
+                    <li v-if="user.role != 1"><!---->
                         <Link :href="route('author.index')"
                             class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white"
                             aria-current="page">Authors</Link>
@@ -110,9 +141,11 @@ defineProps(['user'])
                             class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white"
                             aria-current="page">Author Create</Link>
                     </li>
-                    <Link v-if="user.role != 1" :href="route('order.index')"
-                        class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white"
-                        aria-current="page">Orders</Link>
+                    <li v-if="user.role != 1">
+                        <Link :href="route('order.index')"
+                            class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white"
+                            aria-current="page">Orders</Link>
+                    </li>
                 </ul>
             </div>
         </div>

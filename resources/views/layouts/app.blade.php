@@ -22,7 +22,7 @@
     <!-- JQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -35,23 +35,8 @@
 </head>
 
 <body>
-    {{-- @include('components.navbar') --}}
     @inertia
-    {{-- <div id="app">
-        @include('components.navbar')
-
-        <main class="py-4">
-            @yield('content')
-        </main>
-
-    </div> --}}
-
-    <!-- JQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
-
-
-
-
 </body>
 
 </html>

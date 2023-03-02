@@ -20,7 +20,7 @@ class AuthorController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('check.author');
+        $this->middleware('check.author', ['except' => ['index', 'show']]);
     }
 
     public function index()
@@ -52,15 +52,15 @@ class AuthorController extends Controller
      */
     public function show(Author $author)
     {
-        return Inertia::render('author/Edit', ['user' => Auth::user(),'author'=>$author->load('books')]);
-        }
+        return Inertia::render('author/Show', ['user' => Auth::user(), 'author' => $author->load('books')]);
+    }
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(Author $author)
     {
-        return Inertia::render('author/Edit', ['user' => Auth::user(),'author'=>$author->load('books'),'books' => Book::all()]);
+        return Inertia::render('author/Edit', ['user' => Auth::user(), 'author' => $author->load('books'), 'books' => Book::all()]);
     }
 
     /**
@@ -70,7 +70,7 @@ class AuthorController extends Controller
     {
         $author->update($request->all());
         $author->books()->sync($request->books);
-        return Inertia::render('author/Edit', ['user' => Auth::user(),'author'=>$author->load('books'),'books' => Book::all(),'messages' => ['Author successfully created!']]);
+        return Inertia::render('author/Edit', ['user' => Auth::user(), 'author' => $author->load('books'), 'books' => Book::all(), 'messages' => ['Author successfully created!']]);
     }
 
     /**
@@ -81,4 +81,15 @@ class AuthorController extends Controller
         $author->delete();
         return redirect()->route('author.index')->with('message', 'Author successfully removed!');
     }
+
+    public function search(Request $request)
+    {
+        if (!$request->search)
+            return redirect()->route('author.index');
+
+        $author = Author::whereRaw("LOCATE('" . $request->search . "', name) <> 0")->with('books')->paginate(6);
+
+        return Inertia::render('author/Index', ['authors' => $author, 'user' => Auth::user()]);
+    }
+
 }

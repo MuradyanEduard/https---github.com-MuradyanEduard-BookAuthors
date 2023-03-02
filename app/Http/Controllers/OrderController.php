@@ -18,8 +18,6 @@ class OrderController extends Controller
 {
     public function add(OrderRequest $request): RedirectResponse
     {
-        dd($request);
-
         $book = Book::where('id', $request->id)->first();
         $key = $book->id;
 
@@ -48,12 +46,12 @@ class OrderController extends Controller
             Session::put('basket', $basket);
         }
 
-        dd($request->session()->all());
         return redirect()->route('book.index');
     }
 
     public function remove(Request $request): RedirectResponse
     {
+
         $book = Book::where('id', $request->id)->first();
 
         $basket = Session::get('basket');
@@ -62,13 +60,38 @@ class OrderController extends Controller
         unset($basket[$key]);
         Session::put('basket', $basket);
 
+        if ($request->fromOrder)
+            return redirect()->route('order.confirm');
+        else
+            return redirect()->route('book.index');
 
-        return redirect()->route('book.index');
     }
 
+    public function confirm()
+    {
+        $basket = Session::get('basket');
+        $books = [];
+        $total_price = 0;
+
+        if (!$basket)
+            return Inertia::render('order/Confirm', ['user' => Auth::user(), 'messages' => ['Your basket empty!']]);
+
+        foreach ($basket as $sbook) {
+            $book = Book::where('id', $sbook['id'])->with('authors')->first();
+            $data = ["basket" => $basket[$book->id], "book" => $book];
+            $total_price += $sbook['count'] * $sbook['price'];
+            $books[$book->id] = $data;
+        }
+
+        return Inertia::render('order/Confirm', ['basket' => $books, 'totalPrice' => $total_price, 'user' => Auth::user()]);
+
+    }
     public function store(Request $request): RedirectResponse
     {
         $basket = Session::get('basket');
+
+        if (!$basket)
+            return redirect()->route('order.index');
 
         $order = Order::create([
             'author_id' => Auth::user()->id,
@@ -88,9 +111,6 @@ class OrderController extends Controller
             $newBook->update(['count' => $newCount]);
 
             $sum += $book['price'];
-
-
-            // dd($order->book_id);
         }
 
         $order->price = $sum;
@@ -98,12 +118,12 @@ class OrderController extends Controller
 
         Session::forget('basket');
 
-        return redirect()->route('book.index');
+        return redirect()->route('order.index');
     }
 
     public function index()
     {
-        $orders;
+        $orders = null;
 
         if (Auth::user()->role == User::ROLE_CUSTOMER) {
             $orders = Order::with('books')->with('author')->with('orders_books')->where('author_id', Auth::user()->id)->paginate(6);
@@ -112,8 +132,6 @@ class OrderController extends Controller
         }
 
         return Inertia::render('order/Index', ['orders' => $orders, 'user' => Auth::user()]);
-
-
     }
 
 }

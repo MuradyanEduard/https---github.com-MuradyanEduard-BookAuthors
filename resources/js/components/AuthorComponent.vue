@@ -30,10 +30,21 @@ const csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('con
             <img class="rounded-t-lg" src='/images/author.jpeg' alt="" />
         </a>
         <div class="p-5">
-            <a href="#">
-                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Author: {{ author.name }}
-                </h5>
-            </a>
+            <div class="flex">
+                <div>
+                    <h5 class="text-2xl mt-1 font-bold tracking-tight text-gray-900 dark:text-white">Author:
+                        {{ author.name }}
+                    </h5>
+                </div>
+                <div class="ml-5">
+                    <Link v-if="showable" :href="route('author.show', author)"
+                        class="m-1 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    Show
+                    <i class="fa fa-eye w-4 h-4 ml-2 -mr-1" aria-hidden="true"></i>
+                    </Link>
+                </div>
+            </div>
+
             <h2 class="mb-3 text-lg font-semibold text-gray-900 dark:text-white">Books:</h2>
 
             <ol class="mb-3 max-w-md space-y-1 text-gray-500 list-decimal list-inside dark:text-gray-400">
@@ -41,12 +52,6 @@ const csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('con
                     <span class="font-semibold text-gray-900 dark:text-white">{{ book.title }} </span>
                 </li>
             </ol>
-
-            <Link v-if="showable" :href="route('author.show', author)"
-                class="m-1 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-            Show
-            <i class="fa fa-eye w-4 h-4 ml-2 -mr-1" aria-hidden="true"></i>
-            </Link>
 
             <Link v-if="ediatable" :href="route('author.edit', author)"
                 class="m-1 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">

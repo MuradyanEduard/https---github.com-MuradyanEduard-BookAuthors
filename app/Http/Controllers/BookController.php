@@ -24,11 +24,12 @@ class BookController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('check.book', ['except' => ['index']]); //only
+        $this->middleware('check.book', ['except' => ['index', 'show']]); //only
     }
 
     public function index()
     {
+
         if (Auth::user()->role == User::ROLE_AUTHOR) {
             $books = Book::with('authors')
                 ->whereHas('authors', function ($query) {
@@ -149,6 +150,16 @@ class BookController extends Controller
     {
         $book->delete();
         return redirect()->route('book.index')->with('messages', 'Book successfully removed!');
+    }
+
+    public function search(Request $request)
+    {
+        if (!$request->search)
+            return redirect()->route('book.index');
+
+        $book = Book::whereRaw("LOCATE('" . $request->search . "', title) <> 0")->with('authors')->paginate(6);
+
+        return Inertia::render('book/Index', ['books' => $book, 'user' => Auth::user(), 'basket' => Session::get('basket')]);
     }
 
 }

@@ -1,5 +1,6 @@
 <script setup>
 import { Link } from '@inertiajs/vue3'
+import { ref } from 'vue';
 
 defineProps({
     book: {
@@ -24,20 +25,35 @@ defineProps({
     }
 })
 
-const csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+
+const count = ref()
 
 </script>
 
+
 <template>
     <div class="m-5 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+
         <a href="#">
             <img class="rounded-t-lg" src='/images/book.jpg' alt="" />
         </a>
-        <div class="p-5">
-            <a href="#">
-                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Book: {{ book.title }}
-                </h5>
-            </a>
+        <div class="p-5 mb-5">
+
+            <div class="flex">
+                <div>
+                    <h5 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Book: {{ book.title }}
+                    </h5>
+                </div>
+                <div class="ml-5">
+                    <Link v-if="showable" :href="route('book.show', book)"
+                        class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    Show
+                    <i class="fa fa-eye w-4 h-4 ml-2 -mr-1" aria-hidden="true"></i>
+                    </Link>
+                </div>
+
+            </div>
+
             <h2 class="mb-3 text-lg font-semibold text-gray-900 dark:text-white">Authors:</h2>
 
             <ol class="mb-3 max-w-md space-y-1 text-gray-500 list-decimal list-inside dark:text-gray-400">
@@ -50,11 +66,6 @@ const csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('con
             <h2 class="mb-3 text-lg font-semibold text-gray-900 dark:text-white">Price:<span class="ml-2">{{ book.price }}
                 </span></h2>
 
-            <Link v-if="showable" :href="route('book.show', book)"
-                class="m-1 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-            Show
-            <i class="fa fa-eye w-4 h-4 ml-2 -mr-1" aria-hidden="true"></i>
-            </Link>
 
             <Link v-if="ediatable" :href="route('book.edit', book)"
                 class="m-1 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
@@ -70,9 +81,6 @@ const csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('con
             </Link>
 
             <div v-if="basket" class="relative w-full">
-
-                <input type="hidden" v-model="_token">
-                <input type="hidden" v-model="id">
                 <div class="flex">
                     <div class="m-3">
                         <label for="count" class="block m-auto text-sm font-medium text-gray-900 dark:text-white">
@@ -84,13 +92,14 @@ const csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('con
                             :placeholder=book.count required>
                     </div>
                     <div>
-                        <Link href="order/add" :data="{ count }" preserve-state method="POST"
+                        <Link href="/order/add" :data="{ id: book.id, count: count }" preserve-state method="POST"
                             class="m-1 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         Add <i class="fa fa-shopping-cart w-4 h-4 ml-2 -mr-1" aria-hidden="true"></i>
                         </Link>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </template>
