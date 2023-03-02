@@ -20,7 +20,7 @@ class AuthorController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('check.author', ['except' => ['index', 'show']]);
+        $this->middleware('check.author', ['except' => ['index', 'show', 'search']]);
     }
 
     public function index()

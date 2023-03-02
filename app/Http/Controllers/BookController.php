@@ -24,7 +24,7 @@ class BookController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('check.book', ['except' => ['index', 'show']]); //only
+        $this->middleware('check.book', ['except' => ['index', 'show', 'search']]); //only
     }
 
     public function index()
