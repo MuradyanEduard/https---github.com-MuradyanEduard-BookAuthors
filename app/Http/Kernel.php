@@ -68,5 +68,7 @@ class Kernel extends HttpKernel
         'check.book' => \App\Http\Middleware\CheckBook::class,
         'check.author' => \App\Http\Middleware\CheckAuthor::class,
         'check.order' => \App\Http\Middleware\CheckOrder::class,
+        'check.api.book' => \App\Http\Middleware\CheckApiBook::class,
+        'check.auth.token' => \App\Http\Middleware\CheckAuthToken::class,
     ];
 }

@@ -1,11 +1,14 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\API;
 
 use Illuminate\Foundation\Http\FormRequest;
-
-use App\Models\User;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Contracts\Validation\Validator;
+use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+
 
 class BookRequest extends FormRequest
 {
@@ -31,6 +34,15 @@ class BookRequest extends FormRequest
             'authors' => ((User::ROLE_AUTHOR != Auth::user()->role) ? 'required|array' : ''),
             'authors.*' => ((User::ROLE_AUTHOR != Auth::user()->role) ? 'integer' : '')
         ];
+    }
+
+    public function failedValidation(Validator $validator): HttpResponseException
+    {
+        throw new HttpResponseException(response()->json([
+            'message' => 'Validation errors',
+            'data' => $validator->errors()
+        ], 400));
+
     }
 
 }
