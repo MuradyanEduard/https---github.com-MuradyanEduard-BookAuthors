@@ -69,6 +69,7 @@ class Kernel extends HttpKernel
         'check.author' => \App\Http\Middleware\CheckAuthor::class,
         'check.order' => \App\Http\Middleware\CheckOrder::class,
         'check.api.book' => \App\Http\Middleware\CheckApiBook::class,
-        'check.auth.token' => \App\Http\Middleware\CheckAuthToken::class,
+        'check.api.author' => \App\Http\Middleware\CheckApiAuthor::class,
+        'check.api.order' => \App\Http\Middleware\CheckApiOrder::class,
     ];
 }

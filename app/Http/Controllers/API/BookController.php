@@ -9,12 +9,9 @@ use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\BookRequest;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 
 use Session;
-use Inertia\Inertia;
 
 class BookController extends Controller
 {
@@ -75,16 +72,39 @@ class BookController extends Controller
      */
     public function update(BookRequest $request, Book $book)
     {
-        // $book->update($request->all());
-        // $authors = Author::with('users')
-        //     ->whereHas('users', function ($query) {
-        //         $query->where('users.role', '!=', User::ROLE_CUSTOMER);
-        //     })
-        //     ->get();
 
-        // if (Auth::user()->role != User::ROLE_AUTHOR) {
-        //     $book->authors()->sync($request->authors);
-        // }
+        try {
+            $cond = true;
+            if (Auth::user()->role != User::ROLE_ADMIN) {
+                $book->load('authors');
+
+                foreach ($book->authors as $author) {
+                    if (Auth::user()->id == $author->id) {
+                        $cond = false;
+                        break;
+                    }
+                }
+
+                if ($cond) {
+                    return response()->json(['messages' => ['Permission denied!']], 202);
+                }
+            }
+
+            $book->update($request->all());
+            $authors = Author::with('users')
+                ->whereHas('users', function ($query) {
+                    $query->where('users.id', '!=', User::ROLE_CUSTOMER);
+                })
+                ->get();
+
+            if (Auth::user()->role != User::ROLE_AUTHOR) {
+                $book->authors()->sync($request->authors);
+            }
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => $th->getMessage()
+            ], 500);
+        }
 
         return response()->json(['user' => Auth::user(), 'messages' => ['Book successfully updated!']], 202);
 
@@ -93,10 +113,26 @@ class BookController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Book $book): RedirectResponse
+    public function destroy(Book $book)
     {
+        $cond = true;
+        if (Auth::user()->role != User::ROLE_ADMIN) {
+            $book->load('authors');
+
+            foreach ($book->authors as $author) {
+                if (Auth::user()->id == $author->id) {
+                    $cond = false;
+                    break;
+                }
+            }
+
+            if ($cond) {
+                return response()->json(['messages' => ['Permission denied!']], 202);
+            }
+        }
+
         $book->delete();
-        return redirect()->route('book.index')->with('messages', 'Book successfully removed!');
+        return response()->json(['user' => Auth::user(), 'messages' => ['Book successfully deleted!']], 202);
     }
 
     public function search(Request $request)
@@ -106,6 +142,6 @@ class BookController extends Controller
 
         $book = Book::whereRaw("LOCATE('" . $request->search . "', title) <> 0")->with('authors')->paginate(6);
 
-        return Inertia::render('book/Index', ['books' => $book, 'user' => Auth::user(), 'basket' => Session::get('basket')]);
+        return response()->json(['books' => $book, 'user' => Auth::user(), 'basket' => Session::get('basket')], 202);
     }
 }

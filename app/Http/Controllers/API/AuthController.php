@@ -44,6 +44,7 @@ class AuthController extends Controller
             'role' => ['required'],
         ]);
 
+
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }

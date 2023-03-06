@@ -5,11 +5,8 @@ namespace App\Http\Requests\API;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 
-
-class BookRequest extends FormRequest
+class OrderRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,11 +24,8 @@ class BookRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required',
+            'id' => 'required',
             'count' => 'required|integer|gt:0',
-            'price' => 'required|integer|gt:0',
-            'authors' => ((User::ROLE_AUTHOR != Auth::user()->role) ? 'required|array' : ''),
-            'authors.*' => ((User::ROLE_AUTHOR != Auth::user()->role) ? 'integer' : '')
         ];
     }
 
@@ -42,5 +36,4 @@ class BookRequest extends FormRequest
             'data' => $validator->errors()
         ], 400));
     }
-
 }

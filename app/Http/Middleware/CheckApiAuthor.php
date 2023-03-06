@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class CheckAuthToken
+class CheckApiAuthor
 {
     /**
      * Handle an incoming request.
@@ -16,8 +16,9 @@ class CheckAuthToken
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::user())
-            return response()->json(['message' => "Unauthorized!"], 401);
+        if (Auth::user()->role != \App\Models\User::ROLE_ADMIN) {
+            return response()->json(['message' => "Perrmision denied!"], 403);
+        }
 
         return $next($request);
     }

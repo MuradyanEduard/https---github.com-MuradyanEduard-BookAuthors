@@ -31,3 +31,4 @@ npm install @vue/cli-service@latest
 npm install -g @vue/cli
 vue add router
 https://github.com/tighten/ziggy#installation
+

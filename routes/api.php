@@ -1,9 +1,10 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\BookController;
+use App\Http\Controllers\API\AuthorController;
+use App\Http\Controllers\API\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,8 +20,17 @@ use App\Http\Controllers\API\BookController;
 
 Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/book', [BookController::class, 'index']);
-    Route::post('/book/store', [BookController::class, 'store']);
-    Route::post('/book/update', [BookController::class, 'update']);
+    Route::post('/book/store/', [BookController::class, 'store']);
+    Route::put('/book/update/{book}', [BookController::class, 'update']);
+    Route::delete('/book/destroy/{book}', [BookController::class, 'destroy']);
+    // Route::get('/book/search/', [BookController::class, 'search']);
+    Route::get('/author', [AuthorController::class, 'index']);
+    Route::post('/author/store/', [AuthorController::class, 'store']);
+    Route::put('/author/update/{author}', [AuthorController::class, 'update']);
+    Route::delete('/author/destroy/{author}', [AuthorController::class, 'destroy']);
+    // Route::get('/book/search/', [BookController::class, 'search']);
+    Route::get('/order', [OrderController::class, 'index']);
+    Route::post('/order/add', [OrderController::class, 'add']);
 });
 
 Route::post('/login', [AuthController::class, 'login']);
